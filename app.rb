@@ -14,7 +14,8 @@ if ENV == nil
 end
 
 post '/parse' do
-	puts params
+	payload = JSON.parse(request.body.read)
+	puts payload['from']
   headers = Mail.new(params[:headers])
 
   id = headers['X-Save-Mail-ID'] || SecureRandom.uuid
