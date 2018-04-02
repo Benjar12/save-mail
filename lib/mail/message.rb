@@ -11,9 +11,9 @@ class Message
   @@recieved_at_epoch
 
  def initialize(from)
-   @@id = SecureRandom.uuid
    @@from = from
-   @@attachments = Array.new
+   @@id = SecureRandom.uuid
+   @@attachments = []
    @@recieved_at_epoch = Time.now.to_i
  end
 
@@ -50,7 +50,7 @@ class Message
    json = meta_data.to_json
    file_name = @@id + '.json'
 
-   path = FSUtil.create_and_write(email_address, file_name, meta_data, true)
+   path = FSUtil.create_and_write(@@from, file_name, meta_data, true)
  end
 
  # This is pretty much the only method i'll be accessing externally
