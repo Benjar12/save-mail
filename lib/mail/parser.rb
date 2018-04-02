@@ -1,7 +1,7 @@
 require 'mail'
 require_relative './message'
 require_relative './attachment'
-
+puts 'Im being loaded'
 module MailParser
   def parse_and_add_part(message, part)
     content_type = part.content_type
