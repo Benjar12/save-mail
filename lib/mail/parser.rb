@@ -8,7 +8,8 @@ module MailParser
     # If it includes content-type multipart/alternative text/plain or text/html
     # we treat it as the email body, otherwise we treat it as an attachment.
     if content_type.include? 'multipart/alternative' ||
-      content_type.include? 'text/'
+      content_type.include? 'text/plain' ||
+      content_type.include? 'text/html'
       payload = m.parts[0].body
       file_name = message.id + ".txt"
       is_body = true
