@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'fakefs'
 include FakeFS
-require_relative '../lib/mail/attachment'
+require_relative '../../lib/mail/attachment'
 
 class AttachmentTest < Minitest::Test
   def setup
@@ -16,6 +16,7 @@ class AttachmentTest < Minitest::Test
   def test_attachment_writes_to_file
     puts 'in the test case'
     a = Attachment.new("sometextfile.txt", "blablabla", false)
-    a.write("ben@example.com")
+    result_path = a.write("ben@example.com")
+    puts result_path
   end
 end

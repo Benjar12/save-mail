@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'fakefs'
 include FakeFS
-require_relative '../lib/fs_util/fs'
+require_relative '../../lib/fs_util/fs'
 include FSUtil
 
 class FSUtilTest < Minitest::Test
