@@ -1,25 +1,20 @@
 require 'sinatra'
-
 require 'mail'
-
 require 'securerandom'
-
 require 'erb'
 require 'tilt'
+require 'logger'
 
-require 'aws/s3'
+require_relative 'lib/fs_util/fs'
+include FSUtil
 
 if ENV == nil
 	require 'dotenv'
 	Dotenv.load
 end
 
-AWS::S3::Base.establish_connection!(
-  :access_key_id => ENV['S3_ACCESS_KEY_ID'],
-  :secret_access_key => ENV['S3_SECRET_ACCESS_KEY']
-)
-
 post '/parse' do
+	puts params
   headers = Mail.new(params[:headers])
 
   id = headers['X-Save-Mail-ID'] || SecureRandom.uuid
@@ -31,13 +26,9 @@ post '/parse' do
   template = Tilt.new("_templates/" + template_name)
   result = template.render(params, :parsed_headers => headers)
 
-  AWS::S3::S3Object.store(
-      "#{id}.html",
-      result,
-      ENV['S3_BUCKET'],
-      :content_type => 'text/html',
-      :access => :public_read
-  )
+	FSUtil.write("/tmp/foo.txt", result)
+
+	#TODO for each object in a given email call FSUtil::create_and_write
 
   "OK."
 end
